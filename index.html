@@ -3,8 +3,8 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>🎲 Monopoly</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🎲 Monopoly Online</title>
 
 <style>
 *{box-sizing:border-box}
@@ -16,35 +16,34 @@ body{
     color:white;
 }
 
-button,input,select{
-    font:inherit;
-}
+h1{text-align:center;margin:12px}
 
 button{
     width:100%;
-    padding:12px;
-    margin:6px 0;
+    padding:11px;
+    margin:5px 0;
     border:0;
-    border-radius:8px;
+    border-radius:7px;
+    font-size:15px;
     cursor:pointer;
 }
 
-button:hover{filter:brightness(1.1)}
-button:disabled{opacity:.45;cursor:not-allowed}
+button:disabled{opacity:.45}
 
-input,select{
+input{
     width:100%;
-    padding:12px;
-    margin:6px 0;
-    border-radius:8px;
+    padding:11px;
+    margin:5px 0;
+    border-radius:7px;
     border:1px solid #777;
+    font-size:16px;
 }
 
 .screen{
     max-width:500px;
-    margin:50px auto;
-    padding:25px;
+    margin:60px auto;
     background:#273444;
+    padding:25px;
     border-radius:15px;
     text-align:center;
 }
@@ -55,35 +54,19 @@ input,select{
 .green{background:#2ecc71}
 .yellow{background:#f1c40f}
 .red{background:#e74c3c;color:white}
-.purple{background:#9b59b6;color:white}
-
-h1{text-align:center}
-
-.menuButton{
-    font-size:17px;
-    padding:14px;
-}
-
-.code{
-    font-size:32px;
-    letter-spacing:6px;
-    background:#111820;
-    padding:15px;
-    border-radius:10px;
-    margin:15px 0;
-}
 
 .game{
     display:flex;
     justify-content:center;
+    align-items:flex-start;
     gap:18px;
-    padding:15px;
+    padding:10px;
     flex-wrap:wrap;
 }
 
 #board{
-    width:700px;
-    height:700px;
+    width:720px;
+    height:720px;
     background:#c8e6c9;
     border:8px solid #111;
     display:grid;
@@ -103,7 +86,7 @@ h1{text-align:center}
 
 .color{
     width:100%;
-    height:14px;
+    height:15px;
     margin-bottom:2px;
 }
 
@@ -118,23 +101,24 @@ h1{text-align:center}
 .black{background:#333}
 
 .tokens{
-    min-height:24px;
-    font-size:20px;
+    min-height:25px;
+    font-size:22px;
+    line-height:24px;
 }
 
 .center{
     grid-column:2/11;
     grid-row:2/11;
     background:#b7e4c7;
-    display:flex;
-    justify-content:center;
-    align-items:center;
     border:3px solid #222;
+    display:flex;
+    align-items:center;
+    justify-content:center;
 }
 
 .center h2{
     color:#111;
-    font-size:40px;
+    font-size:44px;
     transform:rotate(-20deg);
 }
 
@@ -155,7 +139,8 @@ h1{text-align:center}
 .dice{
     display:flex;
     justify-content:center;
-    gap:15px;
+    gap:18px;
+    margin:10px;
 }
 
 .die{
@@ -163,27 +148,33 @@ h1{text-align:center}
     height:60px;
     background:white;
     color:#111;
+    border-radius:10px;
     display:flex;
     justify-content:center;
     align-items:center;
-    font-size:32px;
-    border-radius:10px;
+    font-size:34px;
 }
 
-.roll{background:#f1c40f;font-weight:bold}
+.roll{
+    background:#f1c40f;
+    font-weight:bold;
+}
 
-#log{
-    height:130px;
-    overflow:auto;
+.buy{background:#2ecc71}
+.no{background:#e74c3c;color:white}
+.build{background:#3498db;color:white}
+
+#propertyInfo{
     background:#111820;
-    padding:8px;
-    border-radius:8px;
-    font-size:13px;
+    padding:10px;
+    border-radius:7px;
+    min-height:80px;
 }
 
 #properties{
     background:#111820;
     padding:8px;
+    border-radius:7px;
     max-height:150px;
     overflow:auto;
 }
@@ -193,12 +184,21 @@ h1{text-align:center}
     border-bottom:1px solid #555;
 }
 
-.card{
-    background:#34495e;
-    padding:15px;
-    margin:8px 0;
-    border-radius:10px;
-    text-align:left;
+#log{
+    background:#111820;
+    height:150px;
+    overflow:auto;
+    padding:8px;
+    border-radius:7px;
+    font-size:13px;
+}
+
+.room{
+    font-size:22px;
+    background:#111820;
+    padding:12px;
+    border-radius:8px;
+    margin:10px 0;
 }
 
 @media(max-width:800px){
@@ -216,189 +216,82 @@ h1{text-align:center}
 
 <body>
 
-<!-- LOGIN -->
+<!-- ================= MENU ================= -->
 
 <div id="loginScreen" class="screen">
-
 <h1>🎲 MONOPOLY</h1>
-
-<h2>🔐 Login</h2>
-
-<input id="loginUsername" placeholder="Username">
-
-<input id="loginPassword" type="password" placeholder="Password">
-
-<button class="primary" onclick="login()">LOGIN</button>
-
-<button class="green" onclick="showRegister()">CREATE ACCOUNT</button>
-
-<p id="loginMessage"></p>
-
+<p>Login to play online multiplayer.</p>
+<input id="email" type="email" placeholder="Email">
+<input id="password" type="password" placeholder="Password">
+<button class="primary" onclick="loginUser()">🔐 LOGIN</button>
+<button class="green" onclick="registerUser()">📝 CREATE ACCOUNT</button>
+<button onclick="resetPassword()">🔄 RESET PASSWORD</button>
+<p id="authStatus"></p>
 </div>
-
-
-<!-- REGISTER -->
-
-<div id="registerScreen" class="screen hidden">
-
-<h1>📝 Create Account</h1>
-
-<input id="regUsername" placeholder="Username">
-
-<input id="regEmail" placeholder="Email">
-
-<input id="regPassword" type="password" placeholder="Password">
-
-<select id="regAvatar">
-<option>🚗</option>
-<option>🚢</option>
-<option>🐕</option>
-<option>🎩</option>
-<option>🤖</option>
-</select>
-
-<button class="green" onclick="register()">REGISTER</button>
-
-<button onclick="showLogin()">BACK TO LOGIN</button>
-
-<p id="registerMessage"></p>
-
-</div>
-
-
-<!-- MAIN MENU -->
 
 <div id="menuScreen" class="screen hidden">
 
 <h1>🎲 MONOPOLY</h1>
 
-<h2>Welcome, <span id="menuUsername"></span>!</h2>
+<p>Choose how you want to play!</p>
 
-<button class="green menuButton" onclick="newGame()">
+<button class="primary" onclick="startNewGame()">
 🎮 NEW GAME
 </button>
 
-<button class="primary menuButton" onclick="playAI()">
+<button class="primary" onclick="playAI()">
 🤖 PLAY VS AI
 </button>
 
-<button class="purple menuButton" onclick="showMultiplayer()">
-👥 MULTIPLAYER
-</button>
+<hr>
 
-<button class="yellow menuButton" onclick="showAchievements()">
-🏆 ACHIEVEMENTS
-</button>
-
-<button class="primary menuButton" onclick="showProfile()">
-👤 PROFILE
-</button>
-
-<button class="menuButton" onclick="showSettings()">
-⚙️ SETTINGS
-</button>
-
-<button class="red menuButton" onclick="logout()">
-🚪 LOGOUT
-</button>
-
-</div>
-
-
-<!-- MULTIPLAYER -->
-
-<div id="multiplayerScreen" class="screen hidden">
-
-<h1>👥 MULTIPLAYER</h1>
+<h3>🌐 ONLINE MULTIPLAYER</h3>
 
 <button class="green" onclick="createGame()">
 🎮 CREATE GAME
 </button>
 
-<div id="createdRoom"></div>
+<input
+    id="roomCode"
+    placeholder="Enter Player 2 Room Code"
+>
+
+<button class="green" onclick="joinGame()">
+👥 JOIN GAME
+</button>
 
 <hr>
 
-<input id="joinCode" placeholder="Enter Player 1's code">
-
-<button class="primary" onclick="joinGame()">
-👤 JOIN GAME
+<button onclick="showLoginMessage()">
+🔐 LOGIN / REGISTER
 </button>
 
-<p id="multiMessage"></p>
+<button onclick="showFeatureMessage('🏆 Leaderboard')">
+🏆 LEADERBOARD
+</button>
 
-<button onclick="backToMenu()">🏠 BACK TO MAIN MENU</button>
+<button onclick="showFeatureMessage('🏆 Achievements')">
+🏆 ACHIEVEMENTS
+</button>
 
-</div>
+<button onclick="showFeatureMessage('⚙️ Settings')">
+⚙️ SETTINGS
+</button>
 
+<button onclick="auth.signOut()">🚪 LOG OUT</button>
 
-<!-- ACHIEVEMENTS -->
-
-<div id="achievementScreen" class="screen hidden">
-
-<h1>🏆 ACHIEVEMENTS</h1>
-
-<div id="achievementList"></div>
-
-<button onclick="backToMenu()">🏠 BACK TO MENU</button>
-
-</div>
-
-
-<!-- PROFILE -->
-
-<div id="profileScreen" class="screen hidden">
-
-<h1>👤 PROFILE</h1>
-
-<div id="profileInfo"></div>
-
-<button onclick="backToMenu()">🏠 BACK TO MENU</button>
+<p id="connectionStatus"></p>
 
 </div>
 
 
-<!-- SETTINGS -->
-
-<div id="settingsScreen" class="screen hidden">
-
-<h1>⚙️ SETTINGS</h1>
-
-<label>🔊 Sound</label>
-<select id="soundSetting" onchange="saveSettings()">
-<option value="on">ON</option>
-<option value="off">OFF</option>
-</select>
-
-<label>🎵 Music</label>
-<select id="musicSetting" onchange="saveSettings()">
-<option value="on">ON</option>
-<option value="off">OFF</option>
-</select>
-
-<label>🎬 Animation Speed</label>
-<select id="animationSetting" onchange="saveSettings()">
-<option value="fast">Fast</option>
-<option value="normal">Normal</option>
-<option value="slow">Slow</option>
-</select>
-
-<label>🌙 Theme</label>
-<select id="themeSetting" onchange="saveSettings()">
-<option value="dark">Dark</option>
-<option value="light">Light</option>
-</select>
-
-<button onclick="backToMenu()">🏠 BACK TO MENU</button>
-
-</div>
-
-
-<!-- GAME -->
+<!-- ================= GAME ================= -->
 
 <div id="gameScreen" class="hidden">
 
-<h1>🎲 MONOPOLY</h1>
+<h1>🎲 MONOPOLY ONLINE</h1>
+
+<div id="roomDisplay" class="room"></div>
 
 <div class="game">
 
@@ -408,29 +301,29 @@ h1{text-align:center}
 <h2>MONOPOLY<br>🎲</h2>
 </div>
 
-<!-- BOARD SPACES -->
+
+<!-- BOTTOM -->
 
 <div class="space" style="grid-row:11;grid-column:11">
 <div class="color black"></div>
-GO
+<strong>GO</strong>
 <div class="tokens" id="tokens0"></div>
 </div>
 
 <div class="space" style="grid-row:11;grid-column:10">
 <div class="color brown"></div>
-Mediterranean<br>$60
+Mediterranean Avenue<br>$60
 <div class="tokens" id="tokens1"></div>
 </div>
 
 <div class="space" style="grid-row:11;grid-column:9">
-<div class="color black"></div>
 Community Chest
 <div class="tokens" id="tokens2"></div>
 </div>
 
 <div class="space" style="grid-row:11;grid-column:8">
 <div class="color brown"></div>
-Baltic<br>$60
+Baltic Avenue<br>$60
 <div class="tokens" id="tokens3"></div>
 </div>
 
@@ -448,25 +341,24 @@ Reading Railroad<br>$200
 
 <div class="space" style="grid-row:11;grid-column:5">
 <div class="color lightblue"></div>
-Oriental<br>$100
+Oriental Avenue<br>$100
 <div class="tokens" id="tokens6"></div>
 </div>
 
 <div class="space" style="grid-row:11;grid-column:4">
-<div class="color black"></div>
 Chance
 <div class="tokens" id="tokens7"></div>
 </div>
 
 <div class="space" style="grid-row:11;grid-column:3">
 <div class="color lightblue"></div>
-Vermont<br>$100
+Vermont Avenue<br>$100
 <div class="tokens" id="tokens8"></div>
 </div>
 
 <div class="space" style="grid-row:11;grid-column:2">
 <div class="color lightblue"></div>
-Connecticut<br>$120
+Connecticut Avenue<br>$120
 <div class="tokens" id="tokens9"></div>
 </div>
 
@@ -476,59 +368,64 @@ Jail
 <div class="tokens" id="tokens10"></div>
 </div>
 
+
+<!-- LEFT -->
+
 <div class="space" style="grid-row:10;grid-column:1">
 <div class="color pink"></div>
-St. Charles<br>$140
+St. Charles Place<br>$140
 <div class="tokens" id="tokens11"></div>
 </div>
 
 <div class="space" style="grid-row:9;grid-column:1">
 <div class="color black"></div>
-Electric<br>$150
+Electric Company<br>$150
 <div class="tokens" id="tokens12"></div>
 </div>
 
 <div class="space" style="grid-row:8;grid-column:1">
 <div class="color pink"></div>
-States<br>$140
+States Avenue<br>$140
 <div class="tokens" id="tokens13"></div>
 </div>
 
 <div class="space" style="grid-row:7;grid-column:1">
 <div class="color pink"></div>
-Virginia<br>$160
+Virginia Avenue<br>$160
 <div class="tokens" id="tokens14"></div>
 </div>
 
 <div class="space" style="grid-row:6;grid-column:1">
 <div class="color black"></div>
-Penn Railroad<br>$200
+Pennsylvania Railroad<br>$200
 <div class="tokens" id="tokens15"></div>
 </div>
 
 <div class="space" style="grid-row:5;grid-column:1">
 <div class="color orange"></div>
-St. James<br>$180
+St. James Place<br>$180
 <div class="tokens" id="tokens16"></div>
 </div>
 
 <div class="space" style="grid-row:4;grid-column:1">
-<div class="color black"></div>
 Community Chest
 <div class="tokens" id="tokens17"></div>
 </div>
 
 <div class="space" style="grid-row:3;grid-column:1">
 <div class="color orange"></div>
-Tennessee<br>$180
+Tennessee Avenue<br>$180
 <div class="tokens" id="tokens18"></div>
 </div>
 
 <div class="space" style="grid-row:2;grid-column:1">
 <div class="color orange"></div>
-New York<br>$200
+New York Avenue<br>$200
 <div class="tokens" id="tokens19"></div>
 </div>
+
+
+<!-- TOP -->
 
 <div class="space" style="grid-row:1;grid-column:1">
 <div class="color black"></div>
@@ -538,25 +435,24 @@ Free Parking
 
 <div class="space" style="grid-row:1;grid-column:2">
 <div class="color redbar"></div>
-Kentucky<br>$220
+Kentucky Avenue<br>$220
 <div class="tokens" id="tokens21"></div>
 </div>
 
 <div class="space" style="grid-row:1;grid-column:3">
-<div class="color black"></div>
 Chance
 <div class="tokens" id="tokens22"></div>
 </div>
 
 <div class="space" style="grid-row:1;grid-column:4">
 <div class="color redbar"></div>
-Indiana<br>$220
+Indiana Avenue<br>$220
 <div class="tokens" id="tokens23"></div>
 </div>
 
 <div class="space" style="grid-row:1;grid-column:5">
 <div class="color redbar"></div>
-Illinois<br>$240
+Illinois Avenue<br>$240
 <div class="tokens" id="tokens24"></div>
 </div>
 
@@ -568,18 +464,17 @@ B&O Railroad<br>$200
 
 <div class="space" style="grid-row:1;grid-column:7">
 <div class="color yellowbar"></div>
-Atlantic<br>$260
+Atlantic Avenue<br>$260
 <div class="tokens" id="tokens26"></div>
 </div>
 
 <div class="space" style="grid-row:1;grid-column:8">
 <div class="color yellowbar"></div>
-Ventnor<br>$260
+Ventnor Avenue<br>$260
 <div class="tokens" id="tokens27"></div>
 </div>
 
 <div class="space" style="grid-row:1;grid-column:9">
-<div class="color black"></div>
 Water Works<br>$150
 <div class="tokens" id="tokens28"></div>
 </div>
@@ -596,27 +491,29 @@ Go To Jail
 <div class="tokens" id="tokens30"></div>
 </div>
 
+
+<!-- RIGHT -->
+
 <div class="space" style="grid-row:2;grid-column:11">
 <div class="color greenbar"></div>
-Pacific<br>$300
+Pacific Avenue<br>$300
 <div class="tokens" id="tokens31"></div>
 </div>
 
 <div class="space" style="grid-row:3;grid-column:11">
 <div class="color greenbar"></div>
-North Carolina<br>$300
+North Carolina Avenue<br>$300
 <div class="tokens" id="tokens32"></div>
 </div>
 
 <div class="space" style="grid-row:4;grid-column:11">
-<div class="color black"></div>
 Community Chest
 <div class="tokens" id="tokens33"></div>
 </div>
 
 <div class="space" style="grid-row:5;grid-column:11">
 <div class="color greenbar"></div>
-Pennsylvania<br>$320
+Pennsylvania Avenue<br>$320
 <div class="tokens" id="tokens34"></div>
 </div>
 
@@ -627,7 +524,6 @@ Short Line<br>$200
 </div>
 
 <div class="space" style="grid-row:7;grid-column:11">
-<div class="color black"></div>
 Chance
 <div class="tokens" id="tokens36"></div>
 </div>
@@ -653,299 +549,170 @@ Boardwalk<br>$400
 </div>
 
 
-<!-- PANEL -->
+<!-- ================= PANEL ================= -->
 
 <div class="panel">
 
 <div class="box">
-<h2>👤 <span id="p1Name">Player 1</span></h2>
-<p>💰 $<span id="p1Money">1500</span></p>
-<p>📍 <span id="p1Position">GO</span></p>
+
+<h2>👤 Player 1</h2>
+
+<p>
+💰 Money:
+<strong id="playerMoney">$1500</strong>
+</p>
+
+<p>
+📍 Position:
+<strong id="playerPosition">GO</strong>
+</p>
+
 </div>
+
 
 <div class="box">
-<h2>👤 <span id="p2Name">Player 2</span></h2>
-<p>💰 $<span id="p2Money">1500</span></p>
-<p>📍 <span id="p2Position">GO</span></p>
+
+<h2>👤 Player 2</h2>
+
+<p>
+💰 Money:
+<strong id="opponentMoney">$1500</strong>
+</p>
+
+<p>
+📍 Position:
+<strong id="opponentPosition">GO</strong>
+</p>
+
 </div>
 
-<h2 id="turnText">🎮 Your turn</h2>
+
+<h2 id="turn">🎮 Your turn</h2>
+
+<p>
+Doubles:
+<strong id="doubles">0</strong>
+</p>
+
 
 <div class="dice">
-<div class="die" id="die1">🎲</div>
-<div class="die" id="die2">🎲</div>
+
+<div id="die1" class="die">🎲</div>
+<div id="die2" class="die">🎲</div>
+
 </div>
 
-<button id="rollButton" class="roll" onclick="rollDice()">
+
+<button
+id="rollButton"
+class="roll"
+onclick="rollDice()">
+
 🎲 ROLL
+
 </button>
+
 
 <div id="propertyInfo">
+
+🏠 Property
+
+<br><br>
+
 Roll the dice to begin.
+
 </div>
 
-<button id="buyButton" class="green" onclick="buyProperty()" disabled>
+
+<button
+id="buyButton"
+class="buy"
+onclick="buyProperty()"
+disabled>
+
 🏠 BUY
+
 </button>
 
-<button id="noBuyButton" class="red" onclick="noBuy()" disabled>
+
+<button
+id="noBuyButton"
+class="no"
+onclick="noBuyProperty()"
+disabled>
+
 ❌ NO BUY
+
 </button>
 
-<h3>🏡 Properties</h3>
-<div id="properties">No properties.</div>
+<button id="jailButton" class="red hidden" onclick="payJail()">🚔 PAY $50 TO LEAVE JAIL</button>
+
+
+<button
+class="build"
+onclick="buildHouse()">
+
+🏠 BUILD HOUSE ($50)
+
+</button>
+
+
+<button
+class="build"
+onclick="buildHotel()">
+
+🏨 BUILD HOTEL ($100)
+
+</button>
+
+
+<h3>🏡 Your Properties</h3>
+
+<div id="properties">
+No properties yet.
+</div>
+
 
 <h3>📜 Game Log</h3>
-<div id="log">🎲 Game started!</div>
 
-<button onclick="saveGame()">💾 SAVE GAME</button>
-
-<button onclick="backToMenu()">🏠 MAIN MENU</button>
-
-</div>
-</div>
+<div id="log">
+🎲 Monopoly game loaded!
 </div>
 
+
+<button onclick="backToMenu()">
+🏠 MENU
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script>
 
 <script>
 
-/* =========================
-   USER SYSTEM
-========================= */
-
-let currentUser=null;
-
-function getUsers(){
-    return JSON.parse(
-        localStorage.getItem("monopolyUsers") || "{}"
-    );
-}
-
-function register(){
-
-    const username=
-        document.getElementById("regUsername").value.trim();
-
-    const email=
-        document.getElementById("regEmail").value.trim();
-
-    const password=
-        document.getElementById("regPassword").value;
-
-    const avatar=
-        document.getElementById("regAvatar").value;
-
-    if(!username || !email || !password){
-        document.getElementById("registerMessage").textContent=
-            "❌ Fill everything in.";
-        return;
-    }
-
-    const users=getUsers();
-
-    if(users[username]){
-        document.getElementById("registerMessage").textContent=
-            "❌ Username already exists.";
-        return;
-    }
-
-    users[username]={
-        username,
-        email,
-        password,
-        avatar,
-        gamesPlayed:0,
-        gamesWon:0,
-        totalMoneyEarned:0,
-        propertiesOwned:0,
-        achievements:[]
-    };
-
-    localStorage.setItem(
-        "monopolyUsers",
-        JSON.stringify(users)
-    );
-
-    currentUser=users[username];
-
-    localStorage.setItem(
-        "currentUser",
-        username
-    );
-
-    showMenu();
-}
-
-function login(){
-
-    const username=
-        document.getElementById("loginUsername").value.trim();
-
-    const password=
-        document.getElementById("loginPassword").value;
-
-    const users=getUsers();
-
-    if(
-        !users[username] ||
-        users[username].password!==password
-    ){
-
-        document.getElementById("loginMessage").textContent=
-            "❌ Wrong username or password.";
-
-        return;
-    }
-
-    currentUser=users[username];
-
-    localStorage.setItem(
-        "currentUser",
-        username
-    );
-
-    showMenu();
-}
-
-function logout(){
-
-    currentUser=null;
-
-    localStorage.removeItem("currentUser");
-
-    hideAll();
-
-    document.getElementById("loginScreen")
-        .classList.remove("hidden");
-}
-
-function showRegister(){
-
-    hideAll();
-
-    document.getElementById("registerScreen")
-        .classList.remove("hidden");
-}
-
-function showLogin(){
-
-    hideAll();
-
-    document.getElementById("loginScreen")
-        .classList.remove("hidden");
-}
-
-
-/* =========================
-   SCREENS
-========================= */
-
-function hideAll(){
-
-    document.querySelectorAll(".screen").forEach(
-        s=>s.classList.add("hidden")
-    );
-
-    document.getElementById("gameScreen")
-        .classList.add("hidden");
-}
-
-function showMenu(){
-
-    hideAll();
-
-    document.getElementById("menuScreen")
-        .classList.remove("hidden");
-
-    document.getElementById("menuUsername")
-        .textContent=currentUser.username;
-}
-
-function backToMenu(){
-
-    hideAll();
-
-    document.getElementById("menuScreen")
-        .classList.remove("hidden");
-}
-
-
-/* =========================
-   MULTIPLAYER ROOM
-========================= */
-
-let roomCode="";
-
-function showMultiplayer(){
-
-    hideAll();
-
-    document.getElementById("multiplayerScreen")
-        .classList.remove("hidden");
-}
-
-function createGame(){
-
-    roomCode=Math.random()
-        .toString(36)
-        .substring(2,8)
-        .toUpperCase();
-
-    document.getElementById("createdRoom").innerHTML=
-        "<p>Give this code to Player 2:</p>"+
-        "<div class='code'>"+roomCode+"</div>"+
-        "<p>Waiting for Player 2...</p>";
-
-    localStorage.setItem(
-        "monopolyRoom",
-        roomCode
-    );
-
-    document.getElementById("multiMessage").textContent=
-        "🎮 Game created!";
-}
-
-function joinGame(){
-
-    const code=
-        document.getElementById("joinCode")
-        .value.trim()
-        .toUpperCase();
-
-    const saved=
-        localStorage.getItem("monopolyRoom");
-
-    if(!code){
-
-        document.getElementById("multiMessage")
-            .textContent="❌ Enter a code.";
-
-        return;
-    }
-
-    if(code!==saved){
-
-        document.getElementById("multiMessage")
-            .textContent=
-            "❌ Room not found.";
-
-        return;
-    }
-
-    document.getElementById("multiMessage")
-        .textContent=
-        "✅ Joined room!";
-
-    setTimeout(
-        ()=>newGame(),
-        700
-    );
-}
-
-
-/* =========================
-   GAME DATA
-========================= */
+const firebaseConfig = {
+  apiKey: "AIzaSyAHyO-7IQyjrqLQDDavk5MxvmdTZclfF3Q",
+  authDomain: "monopoly-game-7f2a2.firebaseapp.com",
+  projectId: "monopoly-game-7f2a2",
+  storageBucket: "monopoly-game-7f2a2.firebasestorage.app",
+  messagingSenderId: "1068275800199",
+  appId: "1:1068275800199:web:fd2c1bc2780b401b8b0022",
+  measurementId: "G-GHNF37SCDT"
+};
+
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+const db = firebase.firestore();
+let currentUser = null;
+let roomId = "";
+let roomUnsubscribe = null;
 
 const spaces=[
 
@@ -989,7 +756,6 @@ const spaces=[
 ["Park Place","property","blue",350,35],
 ["Luxury Tax","tax",null,100,0],
 ["Boardwalk","property","blue",400,50]
-
 ];
 
 
@@ -1001,7 +767,7 @@ let player={
     doubles:0
 };
 
-let player2={
+let opponent={
     name:"Player 2",
     money:1500,
     position:0,
@@ -1009,750 +775,1317 @@ let player2={
     doubles:0
 };
 
-let turn=1;
+let turn="player";
+
 let selectedProperty=null;
-let vsAI=false;
+
+let multiplayerActive=false;
+
+let multiplayerRole="";
 
 
-/* =========================
-   START GAME
-========================= */
+const colorGroups={
 
-function newGame(){
+brown:[
+"Mediterranean Avenue",
+"Baltic Avenue"
+],
 
-    vsAI=false;
+lightblue:[
+"Oriental Avenue",
+"Vermont Avenue",
+"Connecticut Avenue"
+],
 
-    resetGame();
+pink:[
+"St. Charles Place",
+"States Avenue",
+"Virginia Avenue"
+],
+
+orange:[
+"St. James Place",
+"Tennessee Avenue",
+"New York Avenue"
+],
+
+red:[
+"Kentucky Avenue",
+"Indiana Avenue",
+"Illinois Avenue"
+],
+
+yellow:[
+"Atlantic Avenue",
+"Ventnor Avenue",
+"Marvin Gardens"
+],
+
+green:[
+"Pacific Avenue",
+"North Carolina Avenue",
+"Pennsylvania Avenue"
+],
+
+blue:[
+"Park Place",
+"Boardwalk"
+]
+
+};
+
+
+/* ================= FIREBASE AUTH ================= */
+
+function setAuthStatus(text){
+    const el=document.getElementById("authStatus");
+    if(el) el.textContent=text;
+}
+
+function loginUser(){
+    const email=document.getElementById("email").value.trim();
+    const password=document.getElementById("password").value;
+    if(!email || !password){ setAuthStatus("❌ Enter your email and password."); return; }
+    auth.signInWithEmailAndPassword(email,password)
+      .then(()=>setAuthStatus("✅ Logged in!"))
+      .catch(err=>setAuthStatus("❌ "+err.message));
+}
+
+function registerUser(){
+    const email=document.getElementById("email").value.trim();
+    const password=document.getElementById("password").value;
+    if(!email || !password){ setAuthStatus("❌ Enter an email and password."); return; }
+    if(password.length < 6){ setAuthStatus("❌ Password must be at least 6 characters."); return; }
+    auth.createUserWithEmailAndPassword(email,password)
+      .then(()=>setAuthStatus("✅ Account created!"))
+      .catch(err=>setAuthStatus("❌ "+err.message));
+}
+
+function resetPassword(){
+    const email=document.getElementById("email").value.trim();
+    if(!email){ setAuthStatus("❌ Enter your email first."); return; }
+    auth.sendPasswordResetEmail(email)
+      .then(()=>setAuthStatus("📧 Password reset email sent."))
+      .catch(err=>setAuthStatus("❌ "+err.message));
+}
+
+auth.onAuthStateChanged(user=>{
+    currentUser=user;
+    if(user){
+        document.getElementById("loginScreen").classList.add("hidden");
+        document.getElementById("menuScreen").classList.remove("hidden");
+        const status=document.getElementById("connectionStatus");
+        if(status) status.textContent="👤 Logged in as "+user.email;
+    }else{
+        document.getElementById("loginScreen").classList.remove("hidden");
+        document.getElementById("menuScreen").classList.add("hidden");
+    }
+});
+
+function requireLogin(){
+    if(!currentUser){ alert("Please log in first."); return false; }
+    return true;
+}
+
+/* ================= NEW GAME ================= */
+
+function startNewGame(){
+
+    multiplayerActive=false;
+    multiplayerRole="";
+
+    player={
+        name:"Player 1",
+        money:1500,
+        position:0,
+        properties:[],
+        doubles:0
+    };
+
+    opponent={
+        name:"Player 2",
+        money:1500,
+        position:0,
+        properties:[],
+        doubles:0
+    };
+
+    turn="player";
+    selectedProperty=null;
+
+    document.getElementById("connectionStatus").textContent="";
 
     showGame();
+
+    log("🎮 New game started!");
 }
+
+
+/* ================= AI GAME ================= */
 
 function playAI(){
 
-    vsAI=true;
-
-    resetGame();
-
-    showGame();
-}
-
-function resetGame(){
+    multiplayerActive=false;
+    multiplayerRole="ai";
 
     player={
-        name:currentUser
-            ? currentUser.username
-            :"Player 1",
+        name:"Player 1",
         money:1500,
         position:0,
         properties:[],
         doubles:0
     };
 
-    player2={
-        name:vsAI
-            ?"🤖 AI"
-            :"Player 2",
+    opponent={
+        name:"🤖 AI",
         money:1500,
         position:0,
         properties:[],
         doubles:0
     };
 
-    turn=1;
-
+    turn="player";
     selectedProperty=null;
+
+    showGame();
+
+    log("🤖 You are playing against the AI!");
 }
+
+
+/* ================= ACCOUNT/FEATURE PLACEHOLDERS ================= */
+
+function showLoginMessage(){
+    alert("Login/Register will be connected to Firebase when the online account system is added.");
+}
+
+function showFeatureMessage(name){
+    alert(name+" will be connected to the full account system next.");
+}
+
+
+/* ================= CREATE GAME ================= */
+
+function createGame(){
+
+if(!requireLogin()) return;
+
+multiplayerActive=true;
+multiplayerRole="host";
+
+const code=Math.random().toString(36).substring(2,8).toUpperCase();
+roomId=code;
+
+player={name:"Player 1",money:1500,position:0,properties:[],doubles:0};
+opponent={name:"Player 2",money:1500,position:0,properties:[],doubles:0};
+turn="player";
+selectedProperty=null;
+
+const state={
+ p1:player,
+ p2:opponent,
+ turnUid:currentUser.uid,
+ dice1:0, dice2:0,
+ message:"🎮 Game created! Waiting for Player 2...",
+ jailPaid:false
+};
+
+db.collection("rooms").doc(code).set({
+ hostUid:currentUser.uid,
+ guestUid:null,
+ state:state,
+ createdAt:firebase.firestore.FieldValue.serverTimestamp()
+}).then(()=>{
+ document.getElementById("connectionStatus").innerHTML="🟢 Room created!<br>Give Player 2 this code:<br><strong>"+code+"</strong>";
+ document.getElementById("roomDisplay").innerHTML="🔑 ROOM CODE: <strong>"+code+"</strong><br>⏳ Waiting for Player 2...";
+ showGame();
+ log("🎮 Multiplayer game created!");
+ log("🔑 Room code: "+code);
+ listenToRoom();
+}).catch(err=>{
+ multiplayerActive=false;
+ document.getElementById("connectionStatus").textContent="❌ "+err.message;
+});
+}
+
+/* ================= JOIN ================= */
+
+function joinGame(){
+
+if(!requireLogin()) return;
+
+const code=document.getElementById("roomCode").value.trim().toUpperCase();
+if(!code){ document.getElementById("connectionStatus").textContent="❌ Enter a room code."; return; }
+
+const ref=db.collection("rooms").doc(code);
+ref.get().then(snap=>{
+ if(!snap.exists){ throw new Error("Room not found. Check the code."); }
+ const data=snap.data();
+ if(data.guestUid && data.guestUid!==currentUser.uid){ throw new Error("This room already has 2 players."); }
+ multiplayerActive=true;
+ multiplayerRole="guest";
+ roomId=code;
+ const state=data.state || {};
+ player=state.p2 || {name:"Player 2",money:1500,position:0,properties:[],doubles:0};
+ opponent=state.p1 || {name:"Player 1",money:1500,position:0,properties:[],doubles:0};
+ turn=(state.turnUid===currentUser.uid)?"player":"opponent";
+
+ return ref.update({guestUid:currentUser.uid, state:{...state, p2:player, message:"👥 Player 2 joined!"}});
+}).then(()=>{
+ document.getElementById("connectionStatus").innerHTML="🟢 Joined room <strong>"+code+"</strong>";
+ document.getElementById("roomDisplay").innerHTML="🔑 ROOM CODE: <strong>"+code+"</strong>";
+ showGame();
+ log("👥 Joined multiplayer room "+code);
+ listenToRoom();
+}).catch(err=>{
+ document.getElementById("connectionStatus").textContent="❌ "+err.message;
+});
+}
+
+/* ================= SHOW GAME ================= */
 
 function showGame(){
 
-    hideAll();
+document.getElementById(
+"menuScreen"
+).classList.add("hidden");
 
-    document.getElementById("gameScreen")
-        .classList.remove("hidden");
 
-    updateDisplay();
+document.getElementById(
+"gameScreen"
+).classList.remove("hidden");
+
+
+updateDisplay();
+
 }
 
 
-/* =========================
-   DICE
-========================= */
+/* ================= MENU ================= */
 
-function rollDice(){
+function backToMenu(){
 
-    if(turn!==1){
+document.getElementById(
+"gameScreen"
+).classList.add("hidden");
 
-        log("⏳ Wait for your turn!");
 
-        return;
-    }
+document.getElementById(
+"menuScreen"
+).classList.remove("hidden");
 
-    const button=
-        document.getElementById("rollButton");
-
-    button.disabled=true;
-
-    let count=0;
-
-    const interval=setInterval(()=>{
-
-        document.getElementById("die1")
-            .textContent=
-            Math.floor(Math.random()*6)+1;
-
-        document.getElementById("die2")
-            .textContent=
-            Math.floor(Math.random()*6)+1;
-
-        count++;
-
-        if(count>=8){
-
-            clearInterval(interval);
-
-            const d1=
-                Math.floor(Math.random()*6)+1;
-
-            const d2=
-                Math.floor(Math.random()*6)+1;
-
-            document.getElementById("die1")
-                .textContent=d1;
-
-            document.getElementById("die2")
-                .textContent=d2;
-
-            const doubles=d1===d2;
-
-            player.doubles=
-                doubles
-                ?player.doubles+1
-                :0;
-
-            log(
-                "🎲 "+player.name+
-                " rolled "+d1+" + "+d2
-            );
-
-            move(player,d1+d2,doubles);
-        }
-
-    },80);
 }
 
 
-/* =========================
-   MOVEMENT
-========================= */
-
-function move(person,total,doubles){
-
-    const old=person.position;
-
-    person.position=
-        (old+total)%40;
-
-    if(old+total>=40){
-
-        person.money+=200;
-
-        log(
-            "💰 "+person.name+
-            " passed GO and collected $200!"
-        );
-    }
-
-    updateDisplay();
-
-    setTimeout(
-        ()=>land(person,doubles),
-        500
-    );
-}
-
-function land(person,doubles){
-
-    const space=spaces[person.position];
-
-    log(
-        "📍 "+person.name+
-        " landed on "+space[0]
-    );
-
-    if(space[1]==="property"){
-
-        propertyAction(
-            person,
-            space,
-            doubles
-        );
-
-        return;
-    }
-
-    if(space[1]==="tax"){
-
-        person.money-=space[3];
-
-        log(
-            "💸 "+person.name+
-            " paid $"+space[3]
-        );
-
-        finishTurn(doubles);
-
-        return;
-    }
-
-    if(space[1]==="gotojail"){
-
-        person.position=10;
-
-        log("🚔 Sent to Jail!");
-
-        finishTurn(false);
-
-        return;
-    }
-
-    finishTurn(doubles);
-}
-
-
-/* =========================
-   PROPERTY
-========================= */
-
-function propertyAction(person,space,doubles){
-
-    const name=space[0];
-
-    const owner1=
-        player.properties.find(
-            p=>p.name===name
-        );
-
-    const owner2=
-        player2.properties.find(
-            p=>p.name===name
-        );
-
-    if(!owner1&&!owner2){
-
-        if(person===player){
-
-            selectedProperty=space;
-
-            document.getElementById(
-                "propertyInfo"
-            ).innerHTML=
-                "🏠 <b>"+name+
-                "</b><br>"+
-                "💰 Price: $"+space[3]+
-                "<br>💵 Rent: $"+space[4];
-
-            document.getElementById(
-                "buyButton"
-            ).disabled=
-                player.money<space[3];
-
-            document.getElementById(
-                "noBuyButton"
-            ).disabled=false;
-
-            return;
-        }
-
-        buyForAI(person,space);
-
-        finishTurn(doubles);
-
-        return;
-    }
-
-    const owner=
-        owner1?player:player2;
-
-    if(owner===person){
-
-        finishTurn(doubles);
-
-        return;
-    }
-
-    const prop=
-        owner.properties.find(
-            p=>p.name===name
-        );
-
-    let rent=space[4];
-
-    if(prop.hotel){
-        rent*=5;
-    }else{
-        rent*=1+prop.houses;
-    }
-
-    person.money-=rent;
-    owner.money+=rent;
-
-    log(
-        "💸 "+person.name+
-        " paid $"+rent+
-        " rent."
-    );
-
-    finishTurn(doubles);
-}
-
-function buyForAI(person,space){
-
-    if(person.money<space[3]){
-
-        log("🤖 AI skipped the property.");
-
-        return;
-    }
-
-    person.money-=space[3];
-
-    person.properties.push({
-        name:space[0],
-        houses:0,
-        hotel:false
-    });
-
-    log(
-        "🤖 AI bought "+
-        space[0]
-    );
-}
-
-
-/* =========================
-   BUY
-========================= */
-
-function buyProperty(){
-
-    if(!selectedProperty)return;
-
-    const price=selectedProperty[3];
-
-    if(player.money<price)return;
-
-    player.money-=price;
-
-    player.properties.push({
-        name:selectedProperty[0],
-        houses:0,
-        hotel:false
-    });
-
-    log(
-        "🏠 You bought "+
-        selectedProperty[0]
-    );
-
-    selectedProperty=null;
-
-    document.getElementById("buyButton")
-        .disabled=true;
-
-    document.getElementById("noBuyButton")
-        .disabled=true;
-
-    updateDisplay();
-
-    finishTurn(false);
-}
-
-function noBuy(){
-
-    selectedProperty=null;
-
-    document.getElementById("buyButton")
-        .disabled=true;
-
-    document.getElementById("noBuyButton")
-        .disabled=true;
-
-    log("❌ You didn't buy the property.");
-
-    finishTurn(false);
-}
-
-
-/* =========================
-   TURNS
-========================= */
-
-function finishTurn(doubles){
-
-    if(doubles){
-
-        turn=1;
-
-        document.getElementById("rollButton")
-            .disabled=false;
-
-        document.getElementById("turnText")
-            .textContent=
-            "🎮 Your turn";
-
-        return;
-    }
-
-    turn=2;
-
-    document.getElementById("turnText")
-        .textContent=
-        "👤 Player 2's turn";
-
-    document.getElementById("rollButton")
-        .disabled=true;
-
-    setTimeout(
-        opponentTurn,
-        800
-    );
-}
-
-function opponentTurn(){
-
-    const d1=
-        Math.floor(Math.random()*6)+1;
-
-    const d2=
-        Math.floor(Math.random()*6)+1;
-
-    document.getElementById("die1")
-        .textContent=d1;
-
-    document.getElementById("die2")
-        .textContent=d2;
-
-    const doubles=d1===d2;
-
-    log(
-        "👤 Player 2 rolled "+
-        d1+" + "+d2
-    );
-
-    move(
-        player2,
-        d1+d2,
-        doubles
-    );
-}
-
-
-/* =========================
-   DISPLAY
-========================= */
-
-function updateDisplay(){
-
-    document.getElementById("p1Name")
-        .textContent=player.name;
-
-    document.getElementById("p2Name")
-        .textContent=player2.name;
-
-    document.getElementById("p1Money")
-        .textContent=player.money;
-
-    document.getElementById("p2Money")
-        .textContent=player2.money;
-
-    document.getElementById("p1Position")
-        .textContent=
-        spaces[player.position][0];
-
-    document.getElementById("p2Position")
-        .textContent=
-        spaces[player2.position][0];
-
-    updateTokens();
-
-    updateProperties();
-}
-
-function updateTokens(){
-
-    for(let i=0;i<40;i++){
-
-        const box=
-            document.getElementById(
-                "tokens"+i
-            );
-
-        if(box)box.textContent="";
-    }
-
-    const a=
-        document.getElementById(
-            "tokens"+player.position
-        );
-
-    const b=
-        document.getElementById(
-            "tokens"+player2.position
-        );
-
-    if(a)a.textContent+="🚗";
-
-    if(b)b.textContent+="🤖";
-}
-
-function updateProperties(){
-
-    const box=
-        document.getElementById("properties");
-
-    if(player.properties.length===0){
-
-        box.textContent=
-            "No properties.";
-
-        return;
-    }
-
-    box.innerHTML="";
-
-    player.properties.forEach(p=>{
-
-        const div=
-            document.createElement("div");
-
-        div.className="property";
-
-        div.textContent=
-            "🏠 "+p.name+
-            " | Houses: "+p.houses+
-            (p.hotel?" | 🏨 Hotel":"");
-
-        box.appendChild(div);
-    });
-}
+/* ================= LOG ================= */
 
 function log(text){
 
-    const box=
-        document.getElementById("log");
+const box=
+document.getElementById("log");
 
-    box.innerHTML+=
-        "<br>"+text;
 
-    box.scrollTop=
-        box.scrollHeight;
+box.innerHTML+=
+"<br>"+text;
+
+
+box.scrollTop=
+box.scrollHeight;
+
 }
 
 
-/* =========================
-   SAVE
-========================= */
+/* ================= TOKENS ================= */
 
-function saveGame(){
+function updateTokens(){
+    for(let i=0;i<40;i++){
+        const box=document.getElementById("tokens"+i);
+        if(box) box.innerHTML="";
+    }
+    const p=document.getElementById("tokens"+player.position);
+    const o=document.getElementById("tokens"+opponent.position);
+    if(p) p.innerHTML='<span title="You">🚗</span>';
+    if(o){ o.innerHTML += '<span title="Player 2">🚙</span>'; }
+}
 
-    localStorage.setItem(
-        "monopolySavedGame",
-        JSON.stringify({
-            player,
-            player2,
-            turn
-        })
-    );
+/* ================= DISPLAY ================= */
 
-    log("💾 Game saved!");
+function updateDisplay(){
+    const jb=document.getElementById("jailButton");
+    if(jb && player.position!==10) jb.classList.add("hidden");
+
+document.getElementById(
+"playerMoney"
+).textContent=
+"$"+player.money;
+
+
+document.getElementById(
+"opponentMoney"
+).textContent=
+"$"+opponent.money;
+
+
+document.getElementById(
+"playerPosition"
+).textContent=
+spaces[player.position][0];
+
+
+document.getElementById(
+"opponentPosition"
+).textContent=
+spaces[opponent.position][0];
+
+
+document.getElementById(
+"doubles"
+).textContent=
+player.doubles;
+
+
+updateTokens();
+
+updateProperties();
+
 }
 
 
-/* =========================
-   ACHIEVEMENTS
-========================= */
+/* ================= PROPERTIES ================= */
 
-const achievements=[
+function updateProperties(){
 
-["🏆 First Victory","Win your first game."],
-["💰 Millionaire","Have $1,000,000."],
-["🏠 Property Collector","Own 10 properties."],
-["🎨 Full Color Group","Own a complete color group."],
-["💥 Bankruptcy King","Bankrupt an opponent."],
-["🏨 Hotel Owner","Build a hotel."],
-["🤖 AI Slayer","Beat the AI."]
+const box=
+document.getElementById(
+"properties"
+);
 
-];
 
-function showAchievements(){
+if(player.properties.length===0){
 
-    hideAll();
+box.textContent=
+"No properties yet.";
 
-    document.getElementById(
-        "achievementScreen"
-    ).classList.remove("hidden");
+return;
 
-    const box=
-        document.getElementById(
-            "achievementList"
-        );
+}
 
-    box.innerHTML="";
 
-    achievements.forEach(a=>{
+box.innerHTML="";
 
-        const div=
-            document.createElement("div");
 
-        div.className="card";
+player.properties.forEach(p=>{
 
-        div.innerHTML=
-            "<h3>"+a[0]+"</h3>"+
-            "<p>"+a[1]+"</p>";
+const div=
+document.createElement("div");
 
-        box.appendChild(div);
+
+div.className="property";
+
+
+div.textContent=
+"🏠 "+
+p.name+
+" | Houses: "+
+p.houses+
+(
+p.hotel?
+" | 🏨 Hotel":
+""
+);
+
+
+box.appendChild(div);
+
+});
+
+}
+
+
+/* ================= ROLL ================= */
+
+function rollDice(){
+
+if(!isMyTurn()){
+
+log(
+"⏳ Wait for your turn!"
+);
+
+return;
+
+}
+
+
+document.getElementById(
+"rollButton"
+).disabled=true;
+
+
+const d1=
+Math.floor(
+Math.random()*6
+)+1;
+
+
+const d2=
+Math.floor(
+Math.random()*6
+)+1;
+
+
+document.getElementById(
+"die1"
+).textContent=d1;
+
+
+document.getElementById(
+"die2"
+).textContent=d2;
+
+
+const total=
+d1+d2;
+
+
+const doubles=
+d1===d2;
+
+
+if(doubles){
+
+player.doubles++;
+
+}else{
+
+player.doubles=0;
+
+}
+
+
+log(
+"🎲 Player 1 rolled "+
+d1+" + "+d2+
+" = "+total
+);
+
+
+movePerson(
+player,
+total,
+doubles
+);
+
+
+/* Multiplayer turn */
+
+if(multiplayerActive){
+
+saveMultiplayerState();
+
+}
+
+}
+
+
+/* ================= MOVE ================= */
+
+function movePerson(
+person,
+total,
+doubles
+){
+
+const old=
+person.position;
+
+
+person.position=
+(
+person.position+
+total
+)%40;
+
+
+if(old+total>=40){
+
+person.money+=200;
+
+
+log(
+"💰 "+
+person.name+
+" passed GO and got $200!"
+);
+
+}
+
+
+updateDisplay();
+
+
+setTimeout(
+()=>{
+
+landOnSpace(
+person,
+doubles
+);
+
+},
+400
+);
+
+}
+
+
+/* ================= LAND ================= */
+
+function landOnSpace(
+person,
+doubles
+){
+
+const space=
+spaces[person.position];
+
+
+log(
+"📍 "+
+person.name+
+" landed on "+
+space[0]
+);
+
+
+if(
+space[1]==="property"
+){
+
+propertyAction(
+person,
+space,
+doubles
+);
+
+return;
+
+}
+
+
+if(space[1]==="jail") {
+    log("🚔 "+person.name+" landed in Jail. Pay $50 to leave.");
+    if(person===player && turn==="player") {
+        document.getElementById("jailButton").classList.remove("hidden");
+        document.getElementById("jailButton").disabled=person.money<50;
+        return;
+    }
+    finishTurn(doubles);
+    return;
+}
+
+if(space[1]==="chance" || space[1]==="community") {
+    const amount = space[1]==="chance" ? [50,-50,100,-100,200][Math.floor(Math.random()*5)] : [100,-100,50,-50,200][Math.floor(Math.random()*5)];
+    person.money += amount;
+    const cardName=space[1]==="chance" ? "Chance" : "Community Chest";
+    const result=amount>=0 ? "received $"+amount : "paid $"+Math.abs(amount);
+    log("🃏 "+cardName+": "+person.name+" "+result+".");
+    alert(cardName+"\n\n"+(amount>=0?"You received $"+amount:"You paid $"+Math.abs(amount)));
+    updateDisplay();
+    finishTurn(doubles);
+    return;
+}
+
+if(
+space[1]==="tax"
+){
+
+person.money-=
+space[3];
+
+
+log(
+"💸 "+
+person.name+
+" paid $"+
+space[3]
+);
+
+
+updateDisplay();
+
+finishTurn(doubles);
+
+return;
+
+}
+
+
+if(
+space[1]==="gotojail"
+){
+
+person.position=10;
+
+
+log(
+"🚔 "+
+person.name+
+" went to Jail!"
+);
+
+
+updateDisplay();
+
+finishTurn(false);
+
+return;
+
+}
+
+
+finishTurn(doubles);
+
+}
+
+
+function payJail(){
+    if(!multiplayerActive && turn!=="player") return;
+    if(player.money<50){ log("❌ You need $50 to leave Jail."); return; }
+    player.money-=50;
+    document.getElementById("jailButton").classList.add("hidden");
+    log("🚔 You paid $50 and left Jail.");
+    updateDisplay();
+    finishTurn(false);
+}
+
+/* ================= PROPERTY ================= */
+
+function propertyAction(
+person,
+space,
+doubles
+){
+
+const name=
+space[0];
+
+
+const playerOwns=
+player.properties.find(
+p=>p.name===name
+);
+
+
+const opponentOwns=
+opponent.properties.find(
+p=>p.name===name
+);
+
+
+if(
+!playerOwns &&
+!opponentOwns
+){
+
+if(person===player){
+
+selectedProperty=space;
+
+
+document.getElementById(
+"propertyInfo"
+).innerHTML=
+"🏠 <strong>"+
+name+
+"</strong><br><br>"+
+"🎨 Color: "+
+space[2]+
+"<br>💰 Price: $"+
+space[3]+
+"<br>💵 Rent: $"+
+space[4];
+
+
+document.getElementById(
+"buyButton"
+).disabled=
+player.money<
+space[3];
+
+
+document.getElementById(
+"noBuyButton"
+).disabled=false;
+
+
+return;
+
+}
+
+
+if(person===opponent){
+
+if(
+opponent.money>=
+space[3]
+){
+
+opponent.money-=
+space[3];
+
+
+opponent.properties.push({
+
+name:name,
+
+houses:0,
+
+hotel:false
+
+});
+
+
+log(
+"👤 Player 2 bought "+
+name
+);
+
+}
+
+
+updateDisplay();
+
+finishTurn(doubles);
+
+return;
+
+}
+
+}
+
+
+/* OWNER */
+
+const owner=
+playerOwns?
+player:
+opponent;
+
+
+if(owner===person){
+
+finishTurn(doubles);
+
+return;
+
+}
+
+
+const property=
+owner.properties.find(
+p=>p.name===name
+);
+
+
+let rent=
+space[4];
+
+
+if(property.hotel){
+
+rent*=5;
+
+}else{
+
+rent*=
+1+
+property.houses;
+
+}
+
+
+person.money-=rent;
+
+owner.money+=rent;
+
+
+log(
+"💸 "+
+person.name+
+" paid $"+
+rent+
+" rent."
+);
+
+
+updateDisplay();
+
+finishTurn(doubles);
+
+}
+
+
+/* ================= BUY ================= */
+
+function buyProperty(){
+
+if(!selectedProperty)
+return;
+
+
+const price=
+selectedProperty[3];
+
+
+if(
+player.money<
+price
+)
+return;
+
+
+player.money-=price;
+
+
+player.properties.push({
+
+name:selectedProperty[0],
+
+houses:0,
+
+hotel:false
+
+});
+
+
+log(
+"🏠 Player 1 bought "+
+selectedProperty[0]+
+" for $"+
+price
+);
+
+
+selectedProperty=null;
+
+
+document.getElementById(
+"buyButton"
+).disabled=true;
+
+
+document.getElementById(
+"noBuyButton"
+).disabled=true;
+
+
+updateDisplay();
+
+finishTurn(false);
+
+}
+
+
+/* ================= NO BUY ================= */
+
+function noBuyProperty(){
+
+if(!selectedProperty)
+return;
+
+
+log(
+"❌ Player 1 didn't buy "+
+selectedProperty[0]
+);
+
+
+selectedProperty=null;
+
+
+document.getElementById(
+"buyButton"
+).disabled=true;
+
+
+document.getElementById(
+"noBuyButton"
+).disabled=true;
+
+
+finishTurn(false);
+
+}
+
+
+/* ================= COLOR GROUP ================= */
+
+function getColorGroup(
+propertyName
+){
+
+for(
+const color in colorGroups
+){
+
+if(
+colorGroups[color]
+.includes(propertyName)
+){
+
+return color;
+
+}
+
+}
+
+return null;
+
+}
+
+
+function ownsCompleteColorGroup(
+propertyName
+){
+
+const color=
+getColorGroup(
+propertyName
+);
+
+
+if(!color)
+return false;
+
+
+const group=
+colorGroups[color];
+
+
+return group.every(
+name=>
+player.properties.some(
+p=>p.name===name
+)
+);
+
+}
+
+
+/* ================= HOUSE ================= */
+
+function buildHouse(){
+
+if(
+player.properties.length===0
+){
+
+log(
+"❌ You don't own any properties."
+);
+
+return;
+
+}
+
+
+const complete=
+player.properties.filter(
+p=>
+ownsCompleteColorGroup(
+p.name
+)
+);
+
+
+if(
+complete.length===0
+){
+
+log(
+"🔒 You need ALL properties of the same color before building houses!"
+);
+
+return;
+
+}
+
+
+const property=
+complete.find(
+p=>
+p.houses<4 &&
+!p.hotel
+);
+
+
+if(!property){
+
+log(
+"❌ No property can receive another house."
+);
+
+return;
+
+}
+
+
+if(
+player.money<50
+){
+
+log(
+"❌ You need $50."
+);
+
+return;
+
+}
+
+
+player.money-=50;
+
+property.houses++;
+
+
+log(
+"🏠 You built a house on "+
+property.name+
+"! House #"+
+property.houses
+);
+
+
+updateDisplay();
+
+}
+
+
+/* ================= HOTEL ================= */
+
+function buildHotel(){
+
+const property=
+player.properties.find(
+p=>
+ownsCompleteColorGroup(
+p.name
+)&&
+p.houses>=4 &&
+!p.hotel
+);
+
+
+if(!property){
+
+log(
+"🔒 You need a complete color group and 4 houses first!"
+);
+
+return;
+
+}
+
+
+if(
+player.money<100
+){
+
+log(
+"❌ You need $100."
+);
+
+return;
+
+}
+
+
+player.money-=100;
+
+property.houses=0;
+
+property.hotel=true;
+
+
+log(
+"🏨 You built a hotel on "+
+property.name+
+"!"
+);
+
+
+updateDisplay();
+
+}
+
+
+/* ================= TURN ================= */
+
+function finishTurn(doubles){
+    if(multiplayerActive){
+        if(doubles){
+            document.getElementById("rollButton").disabled=false;
+            log("🎲 Doubles! Roll again.");
+            saveMultiplayerState();
+            return;
+        }
+        const nextUid = currentUser.uid===getHostUid() ? getGuestUid() : getHostUid();
+        if(!nextUid){
+            log("⏳ Waiting for Player 2 to join...");
+            document.getElementById("rollButton").disabled=true;
+            saveMultiplayerState();
+            return;
+        }
+        turn="opponent";
+        document.getElementById("rollButton").disabled=true;
+        saveMultiplayerState(nextUid);
+        return;
+    }
+
+    if(turn==="player" && doubles){
+        document.getElementById("rollButton").disabled=false;
+        log("🎲 Doubles! Roll again.");
+        return;
+    }
+    if(turn==="player"){
+        turn="opponent";
+        document.getElementById("turn").textContent="👤 Player 2's turn";
+        document.getElementById("rollButton").disabled=true;
+        setTimeout(opponentTurn,1000);
+        return;
+    }
+    turn="player";
+    opponent.doubles=0;
+    document.getElementById("turn").textContent="🎮 Your turn";
+    document.getElementById("rollButton").disabled=false;
+}
+
+function isMyTurn(){
+    if(!multiplayerActive) return turn==="player";
+    return turn==="player";
+}
+
+function getHostUid(){ return roomCache ? roomCache.hostUid : null; }
+function getGuestUid(){ return roomCache ? roomCache.guestUid : null; }
+
+let roomCache=null;
+
+function listenToRoom(){
+    if(roomUnsubscribe) roomUnsubscribe();
+    roomUnsubscribe=db.collection("rooms").doc(roomId).onSnapshot(snap=>{
+        if(!snap.exists){ log("❌ Room was deleted."); return; }
+        const data=snap.data();
+        roomCache=data;
+        const st=data.state || {};
+        if(multiplayerRole==="host"){
+            player=st.p1 || player;
+            opponent=st.p2 || opponent;
+            turn=st.turnUid===currentUser.uid?"player":"opponent";
+        }else{
+            player=st.p2 || player;
+            opponent=st.p1 || opponent;
+            turn=st.turnUid===currentUser.uid?"player":"opponent";
+        }
+        if(st.dice1!==undefined) document.getElementById("die1").textContent=st.dice1||"🎲";
+        if(st.dice2!==undefined) document.getElementById("die2").textContent=st.dice2||"🎲";
+        if(st.message) document.getElementById("roomDisplay").innerHTML="🔑 ROOM CODE: <strong>"+roomId+"</strong><br>"+st.message;
+        updateDisplay();
+        document.getElementById("rollButton").disabled=!isMyTurn();
+        if(data.guestUid) document.getElementById("connectionStatus").innerHTML="🟢 2 players connected • Room: <strong>"+roomId+"</strong>";
+    },err=>{
+        log("❌ Firebase error: "+err.message);
     });
 }
 
+/* ================= PLAYER 2 / AI ================= */
 
-/* =========================
-   PROFILE
-========================= */
+function opponentTurn(){
 
-function showProfile(){
+if(multiplayerActive) return;
 
-    hideAll();
+if(turn!=="opponent")
+return;
 
-    document.getElementById(
-        "profileScreen"
-    ).classList.remove("hidden");
 
-    document.getElementById(
-        "profileInfo"
-    ).innerHTML=
-        "<h2>"+currentUser.avatar+
-        " "+currentUser.username+
-        "</h2>"+
-        "<p>📧 "+currentUser.email+"</p>"+
-        "<p>🎮 Games Played: "+
-        currentUser.gamesPlayed+
-        "</p>"+
-        "<p>🏆 Games Won: "+
-        currentUser.gamesWon+
-        "</p>"+
-        "<p>💰 Money Earned: $"+
-        currentUser.totalMoneyEarned+
-        "</p>";
+const d1=
+Math.floor(
+Math.random()*6
+)+1;
+
+
+const d2=
+Math.floor(
+Math.random()*6
+)+1;
+
+
+document.getElementById(
+"die1"
+).textContent=d1;
+
+
+document.getElementById(
+"die2"
+).textContent=d2;
+
+
+const total=
+d1+d2;
+
+
+const doubles=
+d1===d2;
+
+
+if(doubles){
+
+opponent.doubles++;
+
+}else{
+
+opponent.doubles=0;
+
 }
 
 
-/* =========================
-   SETTINGS
-========================= */
+log(
+"👤 Player 2 rolled "+
+d1+" + "+d2+
+" = "+total
+);
 
-function showSettings(){
 
-    hideAll();
+movePerson(
+opponent,
+total,
+doubles
+);
 
-    document.getElementById(
-        "settingsScreen"
-    ).classList.remove("hidden");
-
-    const settings=
-        JSON.parse(
-            localStorage.getItem(
-                "monopolySettings"
-            )||"{}"
-        );
-
-    if(settings.sound)
-        document.getElementById(
-            "soundSetting"
-        ).value=settings.sound;
-
-    if(settings.music)
-        document.getElementById(
-            "musicSetting"
-        ).value=settings.music;
-
-    if(settings.animation)
-        document.getElementById(
-            "animationSetting"
-        ).value=settings.animation;
-
-    if(settings.theme)
-        document.getElementById(
-            "themeSetting"
-        ).value=settings.theme;
-}
-
-function saveSettings(){
-
-    const settings={
-
-        sound:
-            document.getElementById(
-                "soundSetting"
-            ).value,
-
-        music:
-            document.getElementById(
-                "musicSetting"
-            ).value,
-
-        animation:
-            document.getElementById(
-                "animationSetting"
-            ).value,
-
-        theme:
-            document.getElementById(
-                "themeSetting"
-            ).value
-    };
-
-    localStorage.setItem(
-        "monopolySettings",
-        JSON.stringify(settings)
-    );
-
-    if(settings.theme==="light"){
-
-        document.body.style.background=
-            "#eeeeee";
-
-        document.body.style.color=
-            "#111";
-
-    }else{
-
-        document.body.style.background=
-            "#17212b";
-
-        document.body.style.color=
-            "white";
-    }
 }
 
 
-/* =========================
-   LOAD USER
-========================= */
+/* ================= FIREBASE ROOM STATE ================= */
 
-const savedUser=
-    localStorage.getItem("currentUser");
+function saveMultiplayerState(nextUid=null){
+    if(!multiplayerActive || !roomId || !currentUser) return;
+    const p1=multiplayerRole==="host" ? player : opponent;
+    const p2=multiplayerRole==="host" ? opponent : player;
+    const turnUid=nextUid || (turn==="player" ? currentUser.uid : (multiplayerRole==="host" ? getGuestUid() : getHostUid()));
+    db.collection("rooms").doc(roomId).update({
+        state:{
+            p1:p1,
+            p2:p2,
+            turnUid:turnUid,
+            dice1:document.getElementById("die1").textContent,
+            dice2:document.getElementById("die2").textContent,
+            message: turnUid ? (turnUid===currentUser.uid ? "🎮 Your turn" : "⏳ Opponent's turn") : "⏳ Waiting for Player 2..."
+        }
+    }).catch(err=>log("❌ Save failed: "+err.message));
+}
 
-if(savedUser){
-
-    const users=getUsers();
-
-    if(users[savedUser]){
-
-        currentUser=
-            users[savedUser];
-
-        showMenu();
-    }
+function loadMultiplayerState(){
+    if(multiplayerActive) listenToRoom();
 }
 
 </script>
